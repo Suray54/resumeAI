@@ -18,32 +18,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      
-      if (user) {
-        // Ensure user doc exists
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-          try {
-            await setDoc(userRef, {
-              email: user.email,
-              displayName: user.displayName || user.email?.split('@')[0],
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp(),
-            });
-          } catch (e) {
-            console.error('Error creating user doc:', e);
-          }
-        }
-      }
-      
-      setLoading(false);
     });
+
+    auth.authStateReady().then(() => setLoading(false));
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const ensureUserDoc = async () => {
+      const userRef = doc(db, 'users', user.uid);
+      try {
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            email: user.email,
+            displayName: user.displayName || user.email?.split('@')[0],
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+        }
+      } catch (e) {
+        console.error('Error syncing user doc:', e);
+      }
+    };
+
+    ensureUserDoc();
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

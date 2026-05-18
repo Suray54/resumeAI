@@ -20,7 +20,7 @@ Follow these steps to run the project on your local machine.
     ```env
     GEMINI_API_KEY=your_actual_api_key_here
     ```
-    You can get an API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+    Get a Gemini API key from [Google AI](https://aistudio.google.com/app/apikey).
 4.  **Run Development Server**:
     ```bash
     npm run dev

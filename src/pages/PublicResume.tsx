@@ -66,7 +66,7 @@ export function PublicResume() {
       
       <header className="fixed top-0 left-0 w-full h-16 bg-white/80 backdrop-blur-md border-b flex items-center justify-between px-6 z-10 hide-print">
         <div className="text-sm font-semibold tracking-wide uppercase text-gray-400">
-          Powered by ResumeAI
+          Powered by Resumize AI
         </div>
         <Button onClick={() => window.print()} className="gap-2" style={{ backgroundColor: resume.themeColor }}>
           <Download size={16} /> Print / Save PDF

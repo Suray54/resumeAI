@@ -40,7 +40,7 @@ export function Landing() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-medium mb-8"
         >
           <Sparkles size={14} />
-          Powered by Gemini AI
+          AI-powered resume builder
         </motion.div>
         
         <motion.h1 

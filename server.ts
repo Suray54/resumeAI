@@ -19,7 +19,7 @@ async function startServer() {
     try {
       const ai = new GoogleGenAI({ 
         apiKey: process.env.GEMINI_API_KEY,
-        httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+        httpOptions: { headers: { 'User-Agent': 'resumeai' } }
       });
       
       const { text, type, context } = req.body;
@@ -55,7 +55,7 @@ async function startServer() {
       
       const ai = new GoogleGenAI({ 
         apiKey: process.env.GEMINI_API_KEY,
-        httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+        httpOptions: { headers: { 'User-Agent': 'resumeai' } }
       });
 
       const response = await ai.models.generateContent({

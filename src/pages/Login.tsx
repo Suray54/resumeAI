@@ -31,10 +31,8 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md shadow-lg border-0 bg-white">
         <CardHeader className="text-center pb-6">
-          <div className="mx-auto w-12 h-12 bg-black rounded-lg text-white flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-          </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">Welcome to ResumeAI</CardTitle>
+          <img src="/favicon.svg" alt="" className="mx-auto w-12 h-12 mb-4 rounded-lg" />
+          <CardTitle className="text-2xl font-bold tracking-tight">Welcome to Resumize AI</CardTitle>
           <CardDescription className="text-base text-gray-500">Sign in to build your AI-powered resume</CardDescription>
         </CardHeader>
         <CardContent>

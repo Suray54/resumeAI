@@ -135,7 +135,7 @@ export function Dashboard() {
     if (!file || !user) return;
     
     setIsUploading(true);
-    const toastId = toast.loading('Extracting data from PDF using Gemini...');
+    const toastId = toast.loading('Extracting data from PDF...');
     
     try {
       const formData = new FormData();
