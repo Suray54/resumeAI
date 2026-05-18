@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() { return request.auth != null; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    function isValidId(id) { 
+        return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+
+    // User Model
+    function isValidUser(data) {
+      return data.keys().hasOnly(['email', 'displayName', 'createdAt', 'updatedAt'])
+        && (data.email is string && data.email.size() > 0 && data.email.size() <= 256)
+        && (data.createdAt is timestamp);
+    }
+
+    // Resume Model
+    function isValidResume(data) {
+      return data.keys().hasOnly([
+        'userId', 'title', 'isPublic', 'visibility', 'createdAt', 'updatedAt',
+        'themeColor', 'template', 'personalInfo', 'summary', 'experience', 'education', 'projects', 'skills'
+      ])
+      && data.userId is string && data.userId == request.auth.uid
+      && data.title is string && data.title.size() <= 128
+      && data.isPublic is bool
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp
+      && data.themeColor is string && data.themeColor.size() <= 20
+      && data.template is string && data.template.size() <= 20
+      && (data.summary == null || (data.summary is string && data.summary.size() <= 5000));
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidUser(incoming());
+      allow update: if isSignedIn() && request.auth.uid == userId && isValidUser(incoming())
+                    && incoming().createdAt == existing().createdAt;
+    }
+
+    match /resumes/{resumeId} {
+      // Allow read if user owns it, or if it is public
+      allow read: if (isSignedIn() && existing().userId == request.auth.uid) || existing().isPublic == true;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      allow create: if isSignedIn() && isValidId(resumeId) && isValidResume(incoming()) 
+                    && request.time == incoming().createdAt
+                    && request.time == incoming().updatedAt;
+      
+      allow update: if isSignedIn() && existing().userId == request.auth.uid && isValidResume(incoming())
+                    && incoming().userId == existing().userId
+                    && incoming().createdAt == existing().createdAt
+                    && incoming().updatedAt == request.time;
+      
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+  }
+}

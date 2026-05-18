@@ -1,0 +1,6 @@
+{
+  "name": "ResumeAI",
+  "description": "An AI-powered resume builder allowing you to create, enhance with Gemini, and share professional resumes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

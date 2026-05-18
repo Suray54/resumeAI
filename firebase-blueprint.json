@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile data",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "Resume": {
+      "title": "Resume",
+      "description": "User's resume document",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"]
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "themeColor": {
+          "type": "string"
+        },
+        "template": {
+          "type": "string",
+          "enum": ["modern", "minimal", "classic"]
+        },
+        "personalInfo": {
+          "$ref": "#/entities/PersonalInfo"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "experience": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Experience" }
+        },
+        "education": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Education" }
+        },
+        "projects": {
+          "type": "array",
+          "items": { "$ref": "#/entities/Project" }
+        },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["userId", "title", "isPublic", "createdAt", "updatedAt", "template", "themeColor"]
+    },
+    "PersonalInfo": {
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "website": { "type": "string" },
+        "avatarUrl": { "type": "string" }
+      }
+    },
+    "Experience": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "company": { "type": "string" },
+        "position": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "current": { "type": "boolean" },
+        "description": { "type": "string" }
+      }
+    },
+    "Education": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "institution": { "type": "string" },
+        "degree": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "link": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "resumes/{resumeId}": {
+      "schema": { "$ref": "#/entities/Resume" },
+      "description": "Resumes created by users"
+    }
+  }
+}
